@@ -16,6 +16,15 @@ chkconfig ntpd on
 ntpstat
 cd /opt
 
+echo never > /sys/kernel/mm/transparent_hugepage/enabled
+
+if grep -q "echo never > /sys/kernel/mm/transparent_hugepage/enabled" /etc/rc.local
+	then echo "Transparent Hugepage disabled on boot"
+	else echo "echo never > /sys/kernel/mm/transparent_hugepage/enabled" >> /etc/rc.local
+	echo "Disabling Transparent Hugepage on boot"
+fi
+
+
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u77-b03/jdk-8u77-linux-x64.rpm -O jdk-8u77-linux-x64.rpm
 
 rpm -ivh jdk-8u77-linux-x64.rpm
